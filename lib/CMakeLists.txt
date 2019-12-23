@@ -56,7 +56,7 @@ else()
   endif()
 endif()
 
-install(TARGETS smb2 EXPORT smb2
-                     RUNTIME DESTINATION bin
-                     ARCHIVE DESTINATION lib${LIB_SUFFIX}
-                     LIBRARY DESTINATION lib${LIB_SUFFIX})
+# install(TARGETS smb2 EXPORT smb2
+#                      RUNTIME DESTINATION bin
+#                      ARCHIVE DESTINATION lib${LIB_SUFFIX}
+#                      LIBRARY DESTINATION lib${LIB_SUFFIX})

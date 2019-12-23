@@ -11,12 +11,12 @@ set(INSTALL_INC_DIR "${CMAKE_INSTALL_PREFIX}/include" CACHE PATH "Installation d
 set(INSTALL_PKGCONFIG_DIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/pkgconfig" CACHE PATH "Installation directory for pkgconfig (.pc) files")
 set(INSTALL_CMAKE_DIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/cmake/libsmb2" CACHE PATH "Installation directory for cmake (.cmake) files")
 
-option(BUILD_SHARED_LIBS "Build shared libraries" ON)
-option(ENABLE_EXAMPLES "Build example programs" OFF)
+option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
+option(ENABLE_EXAMPLES "Build example programs" ON)
 
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
 
-find_package(GSSAPI)
+# find_package(GSSAPI)
 find_package(OpenSSL)
 
 if(GSSAPI_FOUND)
@@ -46,26 +46,26 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL Solaris)
   list(APPEND CORE_LIBRARIES ${SOCKET_LIBRARY} ${NSL_LIBRARY})
 endif()
 
+add_subdirectory(lib)
+
+# include(CMakePackageConfigHelpers)
+# write_basic_package_version_file(${CMAKE_CURRENT_BINARY_DIR}/libsmb2-config-version.cmake
+#                                  VERSION ${PROJECT_VERSION}
+#                                  COMPATIBILITY AnyNewerVersion)
+
 if(ENABLE_EXAMPLES)
   add_subdirectory(examples)
 endif()
 
-add_subdirectory(lib)
+# configure_file(cmake/libsmb2.pc.cmake
+#                ${CMAKE_CURRENT_BINARY_DIR}/libsmb2.pc @ONLY)
 
-include(CMakePackageConfigHelpers)
-write_basic_package_version_file(${CMAKE_CURRENT_BINARY_DIR}/libsmb2-config-version.cmake
-                                 VERSION ${PROJECT_VERSION}
-                                 COMPATIBILITY AnyNewerVersion)
+# install(DIRECTORY include/smb2
+#         DESTINATION ${INSTALL_INC_DIR})
 
-configure_file(cmake/libsmb2.pc.cmake
-               ${CMAKE_CURRENT_BINARY_DIR}/libsmb2.pc @ONLY)
+# install(FILES cmake/FindSMB2.cmake
+#               ${CMAKE_CURRENT_BINARY_DIR}/libsmb2-config-version.cmake
+#         DESTINATION ${INSTALL_CMAKE_DIR})
 
-install(DIRECTORY include/smb2
-        DESTINATION ${INSTALL_INC_DIR})
-
-install(FILES cmake/FindSMB2.cmake
-              ${CMAKE_CURRENT_BINARY_DIR}/libsmb2-config-version.cmake
-        DESTINATION ${INSTALL_CMAKE_DIR})
-
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libsmb2.pc
-        DESTINATION ${INSTALL_PKGCONFIG_DIR})
+# install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libsmb2.pc
+#         DESTINATION ${INSTALL_PKGCONFIG_DIR})
